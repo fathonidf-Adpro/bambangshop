@@ -105,3 +105,15 @@ Jika hanya menggunakan Model tanpa lapisan lain seperti `Service` dan `Repositor
 Postman merupakan tools yang sangat membantu dalam menguji aplikasi yang dibuat. Dengan Postman, saya dapat memastikan respons aplikasi sesuai harapan berdasarkan permintaan yang saya buat, serta menyesuaikan metode seperti CRUD untuk memverifikasi keakuratan data. Fitur-fitur yang saya temukan berguna termasuk pengaturan koleksi permintaan HTTP, otomatisasi pengujian dengan skrip, serta menyediakan lingkungan terisolasi untuk menguji integrasi dengan API eksternal. Postman juga menyediakan fitur pengujian otomatis yang membantu menjalankan serangkaian tes secara berkala untuk memastikan konsistensi dan kualitas aplikasi.
 
 #### Reflection Publisher-3
+
+>1. Observer Pattern has two variations: **Push model** (publisher pushes data to subscribers) and **Pull model** (subscribers pull data from publisher). In this tutorial case, which variation of Observer Pattern that we use?
+
+Dalam tutorial ini, digunakan model push dari **Observer Pattern**, terlihat dalam algoritma di mana layanan notifikasi akan memanggil metode untuk mengirim pembaruan kepada semua pelanggan ketika terjadi peristiwa seperti create, delete, atau update pada objek. Dengan demikian, dalam kasus ini, variasi push model dari observer pattern digunakan, di mana publisher melakukan push data atau pembaruan kepada subscriber.
+
+>2. What are the advantages and disadvantages of using the other variation of Observer Pattern for this tutorial case? (example: if you answer Q1 with Push, then imagine if we used Pull)
+
+Keuntungan menggunakan variasi **Pull** dari Pola Observer meliputi pengurangan keterkaitan antara pengamat dan subjek, serta memungkinkan fleksibilitas lebih besar dalam pengambilan data. Namun, downside-nya adalah potensi peningkatan kompleksitas dalam mengelola langganan pengamat dan masalah kinerja yang mungkin timbul karena polling yang sering untuk pembaruan. Di sisi lain, keuntungan dalam menggunakan variasi pull model adalah efisiensi karena update atau perubahan hanya diterima ketika dibutuhkan saja. Namun, kekurangannya adalah keterlambatan pembaruan di mana informasi baru hanya diterima saat subscriber meminta informasi tersebut.
+
+>3. Explain what will happen to the program if we decide to not use multi-threading in the notification process.
+
+Tanpa **multi-threading**, notifikasi akan berjalan secara berurutan dalam satu thread, mengakibatkan penundaan jika ada pengamat yang memerlukan waktu pemrosesan lama atau mengalami kesalahan. Penggunaan **multi-threading** memungkinkan notifikasi dikirimkan kepada semua subscriber secara asinkronus, mengurangi waktu pengiriman notifikasi dan menghindari keterlambatan yang disebabkan oleh pemrosesan berurutan.
