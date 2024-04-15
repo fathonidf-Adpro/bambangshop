@@ -58,12 +58,12 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [x] Commit: `Implement delete function in Subscriber repository.`
     -   [x] Write answers of your learning module's "Reflection Publisher-1" questions in this README.
 -   **STAGE 2: Implement services and controllers**
-    -   [ ] Commit: `Create Notification service struct skeleton.`
-    -   [ ] Commit: `Implement subscribe function in Notification service.`
-    -   [ ] Commit: `Implement subscribe function in Notification controller.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification service.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification controller.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-2" questions in this README.
+    -   [x] Commit: `Create Notification service struct skeleton.`
+    -   [x] Commit: `Implement subscribe function in Notification service.`
+    -   [x] Commit: `Implement subscribe function in Notification controller.`
+    -   [x] Commit: `Implement unsubscribe function in Notification service.`
+    -   [x] Commit: `Implement unsubscribe function in Notification controller.`
+    -   [x] Write answers of your learning module's "Reflection Publisher-2" questions in this README.
 -   **STAGE 3: Implement notification mechanism**
     -   [ ] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
     -   [ ] Commit: `Implement notify function in Notification service to notify each Subscriber.`
@@ -78,18 +78,30 @@ This is the place for you to write reflections:
 
 #### Reflection Publisher-1
 
-1. In the Observer pattern diagram explained by the Head First Design Pattern book, Subscriber is defined as an interface. Explain based on your understanding of Observer design patterns, do we still need an interface (or `trait` in Rust) in this BambangShop case, or a single Model `struct` is enough?
+>1. In the Observer pattern diagram explained by the Head First Design Pattern book, Subscriber is defined as an interface. Explain based on your understanding of Observer design patterns, do we still need an interface (or `trait` in Rust) in this BambangShop case, or a single Model `struct` is enough?
 
 Dalam konteks BambangShop, di mana hanya terdapat satu kelas Observer, yakni `Subscriber`, dan tidak ada variasi behavior yang berbeda di antara `Subscriber`, penggunaan sebuah Model `struct` tunggal sudah mencukupi tanpa perlu memperkenalkan antarmuka tambahan. Interface diperlukan ketika terdapat beberapa tipe dengan perilaku yang berbeda pada `Subscriber`, namun hal ini tidak berlaku dalam kasus `BambangShop`. Sehingga, dalam implementasi ini, penggunaan single model `struct` sudah cukup untuk menangani observasi perubahan dengan efektif.
 
-2. `id` in `Program` and `url` in `Subscriber` is intended to be unique. Explain based on your understanding, is using `Vec` (list) sufficient or using `DashMap` (map/dictionary) like we currently use is necessary for this case?
+>2. `id` in `Program` and `url` in `Subscriber` is intended to be unique. Explain based on your understanding, is using `Vec` (list) sufficient or using `DashMap` (map/dictionary) like we currently use is necessary for this case?
 
 Kita memutuskan untuk menggunakan `DashMap` dalam kasus ini karena efisiensi pemetaan antara `Product` dan `Subscriber`. Dengan menggunakan `DashMap`, kita dapat langsung memetakan `Product` ke `Subscriber` tanpa perlu membuat dua `Vec` terpisah untuk setiap produk yang nantinya dapat mempersulit pengelolaan data. `DashMap` memudahkan akses dan pemeliharaan data dengan pemetaan langsung antara `Product` dan `Subscriber` berdasarkan kunci, seperti `id` atau `url` produk, sehingga pencarian data atau value menjadi lebih mudah dan efisien.
 
-3. When programming using Rust, we are enforced by rigorous compiler constraints to make a thread-safe program. In the case of the List of Subscribers (`SUBSCRIBERS`) static variable, we used the `DashMap` external library for **thread safe `HashMap`**. Explain based on your understanding of design patterns, do we still need `DashMap` or we can implement Singleton pattern instead?
+>3. When programming using Rust, we are enforced by rigorous compiler constraints to make a thread-safe program. In the case of the List of Subscribers (`SUBSCRIBERS`) static variable, we used the `DashMap` external library for **thread safe `HashMap`**. Explain based on your understanding of design patterns, do we still need `DashMap` or we can implement Singleton pattern instead?
 
 Dalam konteks pemrograman Rust, implementasi **Singleton** dan penggunaan `DashMap` dalam kasus variabel statis Daftar Pelanggan (`SUBSCRIBERS`) saling melengkapi untuk memastikan keamanan dan konsistensi data. **Singleton** memastikan bahwa hanya ada satu instance yang ada di satu interface, sementara `DashMap` digunakan untuk memastikan keamanan penggunaan `HashMap` oleh thread. Dengan kombinasi kedua pendekatan ini, program dapat memastikan **thread-safety** dan integritas data yang diperlukan dalam aplikasi.
 
 #### Reflection Publisher-2
+
+>1. In the Model-View Controller (MVC) compound pattern, there is no `Service` and `Repository`. Model in MVC covers both data storage and business logic. Explain based on your understanding of design principles, why we need to separate “Service” and “Repository” from a Model?
+
+Dalam pola MVC, pemisahan antara `Service` dan `Repository` dari Model adalah penting untuk mematuhi prinsip tanggung jawab tunggal. Dengan "Service" menangani logika aplikasi dan "Repository" mengelola akses data, modularitas kode meningkat dan memudahkan pengembangan serta pemeliharaan. Memisahkan fungsionalitas ini ke dalam file-file terpisah memastikan bahwa setiap bagian kode dapat dibaca dan dimodifikasi dengan lebih mudah, menghindari kompleksitas yang terlalu tinggi dalam satu file.
+
+>2. What happens if we only use the Model? Explain your imagination on how the interactions between each model (`Program`, `Subscriber`, `Notification`) affect the code complexity for each model?
+
+Jika hanya menggunakan Model tanpa lapisan lain seperti `Service` dan `Repository`, program akan memiliki keterikatan yang tinggi, meningkatkan kompleksitas kode karena adanya ketergantungan erat antara mereka. Hal ini berarti perubahan dalam satu bagian dapat berdampak luas pada yang lain, memerlukan penyesuaian yang rumit dalam kode. Selain itu, jika semua fungsionalitas digabung dalam satu file, seperti dalam kasus memiliki 3 model (`Program`, `Subscriber`, dan `Notification`), file tersebut akan sulit dibaca dan memahami. Ini mengakibatkan kesulitan dalam memodifikasi atau mengubah kode saat diperlukan perubahan, karena kompleksitas yang tinggi dan kesulitan untuk menavigasi kode yang panjang.
+
+>3. Have you explored more about **Postman**? Tell us how this tool helps you to test your current work. You might want to also list which features in Postman you are interested in or feel like it is helpful to help your Group Project or any of your future software engineering projects.
+
+Postman merupakan tools yang sangat membantu dalam menguji aplikasi yang dibuat. Dengan Postman, saya dapat memastikan respons aplikasi sesuai harapan berdasarkan permintaan yang saya buat, serta menyesuaikan metode seperti CRUD untuk memverifikasi keakuratan data. Fitur-fitur yang saya temukan berguna termasuk pengaturan koleksi permintaan HTTP, otomatisasi pengujian dengan skrip, serta menyediakan lingkungan terisolasi untuk menguji integrasi dengan API eksternal. Postman juga menyediakan fitur pengujian otomatis yang membantu menjalankan serangkaian tes secara berkala untuk memastikan konsistensi dan kualitas aplikasi.
 
 #### Reflection Publisher-3
